@@ -1,3 +1,26 @@
+
+<?php 
+       $conn = mysqli_connect('localhost', 'root', '', 'assignment') or die('Connection Failed' . mysqli_connect_error());
+
+    
+	if (isset($_GET['edit'])) {
+		$id = $_GET['edit'];
+		$update = true;
+		$record = mysqli_query($conn, "SELECT * FROM employee WHERE id=$id");
+
+		 //   echo "<pre>";
+			$n = mysqli_fetch_array($record);
+            print_r($n);
+			$name = $n['name'];
+            echo $name;
+			$email = $n['email'];
+            $mobile = $n['mobile'];
+            $department = $n['department'];
+
+         
+		
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,27 +36,42 @@
   
 
     <div class="w-50 m-auto">
-        <form action="Feedback.php" method="POST">
+       <?php echo "<form action=\"update.php?id= $id \" method=\"POST\">" ?>
             <div class="form-group">
                 <label>Employee Name</label>
-                <input type="text" name="name" class="form-control" value=<?php$name?> required>
+                <input type="text" name="name" class="form-control" value="<?php echo $name ?>" required>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" name="email" class="form-control" value="<?php$email?>" required>
+                <input type="text" name="email" class="form-control" value="<?php echo $email ?>" required>
             </div>
             <div class="form-group">
                 <label>Mobile No.</label>
-                <input type="text" name="mobile" class="form-control" value="{$n['mobile']}" required>
+                <input type="text" name="mobile" class="form-control" value="<?php echo $mobile ?>" required>
             </div>
             <div class="form-group">
                 <label>Department</label>
-                <input type="text"  name="department" class="form-control" value="{$n['departmnet']}" required>
+                <select class="form-control" type ="text" id="selectDepartment" name="department" value="<?php echo $id_of_department ?>">
+              <option >--Select--</option>
+              <?php           // This section is to retrive department names from department table in company database
+               $connection = mysqli_connect("localhost", "root", "");                      // connecting to the database management system
+                mysqli_select_db($connection, "assignment");                                   // selecting the database
+              $query = mysqli_query($connection, "SELECT department FROM department");        // Executing the querry
+
+              while($dept = mysqli_fetch_assoc($query))
+              {
+              $department = $dept['department'];
+              echo "<option value=\"$department\">{$department}</option>";
+               }
+
+              ?>
+      
+            </select>
                 
             </div>
             <input type="submit" name="update" id="submit" />   
              
-          </form>
+        </form>
     </div>
 
     
@@ -47,21 +85,3 @@
 
 
 
-<?php 
-       $conn = mysqli_connect('localhost', 'root', '', 'assignment') or die('Connection Failed' . mysqli_connect_error());
-
-    
-	if (isset($_GET['edit'])) {
-		$id = $_GET['edit'];
-		$update = true;
-		$record = mysqli_query($conn, "SELECT * FROM employee WHERE id=$id");
-
-		
-			$n = mysqli_fetch_array($record);
-			$GLOBALS['name'] = $n['name'];
-			$GLOBALS['email'] = $n['email'];
-            $GLOBALS['mobile'] = $n['mobile'];
-            $GLOBALS['department'] = $n['department'];
-		
-	}
-?>

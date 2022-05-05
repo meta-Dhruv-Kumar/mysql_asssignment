@@ -14,6 +14,8 @@
 			$email = $n['email'];
             $mobile = $n['mobile'];
 			$department = $n['department'];
+
+           
 		
 	}
 
@@ -27,7 +29,12 @@
  
    while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) { 
   
-       
+    $department_id =  $row['department'];
+    $query_instance = mysqli_query($conn,"SELECT * FROM `department` where `id` = '$department_id'");
+    $row_temp = mysqli_fetch_row($query_instance);
+    $name_of_department =  $row_temp[1] ;   
+
+
         if($count%4==1){
             $style = "style=background-color:#EE82EE;"; 
         }
@@ -48,7 +55,7 @@
         echo "<td> {$row['name']}</td>";
         echo "<td> {$row['email']}</td>";
         echo "<td> {$row['mobile']}</td>";
-        echo "<td> {$row['department']}</td>";
+        echo "<td> {$name_of_department}</td>";
         echo "<a href=\"edit.php?edit= {$row['id']}\" class=\"edit_btn\" >Edit</a>";
         echo "<a href=\"delete.php?del= {$row['id']}\" class=\"dlt_btn\" >Delete</a></div>";
         echo "<br>";

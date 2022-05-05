@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="style.css" type="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
 </head>
 <body>
   
 
     <div class="w-50 m-auto">
-        <form action="Feedback.php" method="POST">
+        <form id="myform" action="Feedback.php" method="POST">
             <div class="form-group">
                 <label>Employee Name</label>
                 <input type="text" name="name" class="form-control" required>
@@ -56,8 +57,57 @@
     </div>
   
 
- 
-
+   
+    <style>
+  .error {
+    color: red;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    $('#myform').validate({
+      rules: {
+        name: {
+          required: true
+        },
+        email: {
+          required: true,
+          email: true
+        },
+        mobile: {
+          required: true,
+          rangelength: [10, 12],
+          number: true
+        },
+        department: {
+          required: true,
+          // min: 1,
+          
+        }
+      },
+      messages: {
+        name: 'Please enter Name.',
+        email: {
+          required: 'Please enter Email Address.',
+          email: 'Please enter a valid Email Address.',
+        },
+        mobile: {
+          required: 'Please enter Contact.',
+          rangelength: 'Contact should be 10 digit number.'
+        },
+        department: {
+          required: 'Please select a department',
+          // min: 'Please select department',
+          
+        }
+      },
+      submitHandler: function (form) {
+        form.submit();
+      }
+    });
+  });
+</script>
     
 </body>
+
 </html>
